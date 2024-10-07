@@ -1,0 +1,39 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.4",
+  "version": 1,
+  "components": [
+    {
+      "bom-ref": "pkg:github.com/example/project@1.0.0",
+      "type": "library",
+      "name": "example-project",
+      "description": "Example project",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "dependencies": [
+        {
+          "ref": "pkg:github.com/example/dependency@2.0.0"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:github.com/example/dependency@2.0.0",
+      "type": "library",
+      "name": "example-dependency",
+      "version": "2.0.0",
+      "description": "Example dependency",
+      "licenses": [
+        {
+          "license": {
+            "id": "Apache-2.0"
+          }
+        }
+      ]
+    }
+  ]
+}

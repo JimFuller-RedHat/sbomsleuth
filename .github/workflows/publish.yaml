@@ -1,0 +1,35 @@
+name: Publish to crates.io
+
+on:
+  push:
+    tags:
+      - 'v*'  # Trigger on version tags ex. v1.0.0
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install platform deps
+        run: |
+          sudo apt install clang llvm pkg-config nettle-dev
+
+      - name: Install Rust
+        run: |
+          rustup install stable
+
+      - name: Install dependencies
+        run: cargo build --release
+
+      - name: Publish sbomsleuth library to crates.io
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+        run: cargo publish --token $CARGO_REGISTRY_TOKEN -p sbomsleuth
+
+      - name: Publish sbomsleuth cli to crates.io
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+        run: cargo publish --token $CARGO_REGISTRY_TOKEN -p sbomsleuth-cli
