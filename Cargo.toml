@@ -1,0 +1,29 @@
+[workspace]
+resolver = "2"
+members = [
+#    "common",
+    "sbomsleuth",
+    "sbomsleuth/cli",
+]
+
+[workspace.metadata.release]
+tag = false
+tag-name = "v{{version}}"
+
+[workspace.dependencies]
+anyhow =  { version = "1.0.89" }
+clap = { version = "4.5.0", features = ["derive", "color"] }
+sbom-walker = { version = "0.9.3", default-features = false, features = ["crypto-openssl", "cyclonedx-bom", "spdx-rs"] }
+colored = { version = "2.0" }
+cyclonedx-bom = { version = "0.6.1" }
+env_logger =  { version = "0.11.5" }
+indicatif =  { version = "0.17.8" }
+log = { version = "0.4.22" }
+predicates =  { version = "3.1.2" }
+reqwest =  { version = "0.12.8" }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1.0.128"
+spdx-rs = { version = "0.5.5"}
+tokio = { version = "1.40.0", features = ["full"] }
+walker-common = { version = "0.9.3"}
+walker-extras = { version = "0.9.3"}

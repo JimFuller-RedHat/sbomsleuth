@@ -1,20 +1,20 @@
 # sbomsleuth
 
-[![crates.io](https://img.shields.io/crates/v/sbomsleuth.svg)](https://crates.io/crates/sbomsleuth)
+[![crates.io](https://img.shields.io/crates/v/sbomsleuth-cli.svg)](https://crates.io/crates/sbomsleuth-cli)
 [![docs.rs](https://docs.rs/sbomsleuth/badge.svg)](https://docs.rs/sbomsleuth)
 [![GitHub release (latest SemVer)](https://img.shields.io/github/v/tag/JimFuller-RedHat/sbomsleuth?sort=semver)](https://github.com/JimFuller-RedHat/sbomsleuth/releases)
 [![CI](https://github.com/JimFuller-RedHat/sbomsleuth/workflows/CI/badge.svg)](https://github.com/JimFuller-RedHat/sbomsleuth/actions?query=workflow%3A%22CI%22)
 
-**WARNING - this is a work in progress - expect breaking changes until we get a 1.0.0 release ... mostly spdx supported, working on cyclonedx ...** 
+**WARNING - this is a work in progress - expect breaking changes until we get a 1.0.0 release ... mostly spdx supported, working on cyclonedx ...**
 
 CLI for investigating sboms.
 
-Inspired by: 
+Inspired by:
 * https://github.com/ctron/csaf-walker
 * https://github.com/anthonyharrison/sbomaudit
 * https://github.com/interlynk-io/sbomqs / https://sbombenchmark.dev/
 
-## Installation
+### Installation
 
 To install library from crates.io:
 ```shell
@@ -26,9 +26,9 @@ To install cli from crates.io
 > cargo install sbomsleuth-cli
 ```
 
-## Usage
+### Usage
 
-### CLI
+#### CLI
 ```shell
 > sbomsleuth --help
 
@@ -434,26 +434,27 @@ Use **-v** to get more information (add more 'v' for even more information).
 > sbomsleuth openshift-4.11.z.json -vvv
 ```
 
-### Library
+#### Library
 
 Using the crate `sbomsleuth`, the library can generate an SBOM quality report:
 
 ```rust
     use sbomsleuth::license::Licenses;
     use sbomsleuth::validate::parse_sbom;
-
+    
     let sbom = parse_sbom("../etc/test-data/spdx/simple.json");
     assert!(sbom.is_ok());
     let parsed_sbom = sbom.unwrap();
     
     let license_instance = Licenses::default();
     let report_instance = sbomsleuth::report::Report {
-        licenses: license_instance.run(&parsed_sbom).await.unwrap(),
-        ..Default::default()
+    licenses: license_instance.run(&parsed_sbom).await.unwrap(),
+    ..Default::default()
     };
     let report = report_instance.run(parsed_sbom).unwrap();
-
+    
     println!("{}", (serde_json::to_string(&report).unwrap()));
+
 ```
 
 ## Release
