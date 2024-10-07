@@ -1,10 +1,10 @@
 # sbomsleuth
 
-**WARNING - this is a work in progress - once we get a 0.1.0 release ...** 
+**WARNING - this is a work in progress - once we get a 0.1.0 release ...**
 
 CLI for investigating sboms.
 
-Inspired by: 
+Inspired by:
 * https://github.com/ctron/csaf-walker
 * https://github.com/anthonyharrison/sbomaudit
 * https://github.com/interlynk-io/sbomqs / https://sbombenchmark.dev/

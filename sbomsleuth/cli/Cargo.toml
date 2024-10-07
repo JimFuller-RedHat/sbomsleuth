@@ -1,0 +1,34 @@
+[package]
+name = "sbomsleuth-cli"
+description = "CLI for investigating sboms."
+version = "0.1.4"
+edition = "2021"
+authors = ["James Fuller <jfuller@redhat.com>"]
+license = "Apache-2.0"
+repository = "https://github.com/JimFuller-RedHat/sbomsleuth"
+categories = ["command-line-utilities", "data-structures"]
+keywords = ["sbom","spdx","cyclone-dx","quality","cli"]
+readme = "../../README.md"
+rust-version = "1.80.0"
+
+[[bin]]
+name = "sbomsleuth"
+path = "src/main.rs"
+
+[dependencies]
+sbomsleuth = { version = "0.1.4", path = ".."}
+clap = { workspace = true }
+serde_json = {workspace = true}
+tokio = {workspace = true}
+anyhow = {workspace = true}
+log = { workspace = true }
+env_logger = { workspace = true }
+indicatif = { workspace = true }
+cyclonedx-bom = { workspace = true }
+spdx-rs = { workspace = true }
+predicates =  { workspace = true }
+colored = {workspace = true}
+chrono = "0.4.38"
+
+[dev-dependencies]
+assert_cmd = "2.0.16"
