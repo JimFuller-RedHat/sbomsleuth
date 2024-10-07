@@ -1,0 +1,101 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+
+  fmt:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: webiny/action-conventional-commits@8bc41ff4e7d423d56fa4905f6ff79209a78776c7
+
+      - name: Check formatting
+        run: |
+          cargo fmt --check
+
+  check-all:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: linux-cargo-all-${{ hashFiles('**/Cargo.toml') }}
+
+      - name: Install binstall
+        run: |
+          curl -L --proto '=https' --tlsv1.2 -sSf https://raw.githubusercontent.com/cargo-bins/cargo-binstall/main/install-from-binstall-release.sh | bash
+
+      - name: Install cargo-all-features
+        run: |
+          cargo binstall -y cargo-all-features
+
+      - name: Install dependencies
+        run: |
+          sudo apt install clang llvm pkg-config nettle-dev
+
+      - name: Check (all features)
+        run: |
+          cargo check-all-features
+
+      - name: Clippy
+        run: cargo clippy --all-targets --tests --bins --all -- -D warnings
+
+  check:
+
+    strategy:
+      matrix:
+
+        rust:
+          - stable
+
+        os:
+          - ubuntu-latest
+
+        include:
+          - os: ubuntu-latest
+            install: sudo apt install clang llvm pkg-config nettle-dev
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: ${{ runner.os }}-cargo-${{ matrix.rust }}-${{ hashFiles('**/Cargo.toml') }}
+
+      - name: Install Rust ${{ matrix.rust }}
+        run: |
+          rustup install ${{ matrix.rust }}
+
+      - name: Install dependencies
+        run: ${{ matrix.install }}
+
+      - name: Tree
+        run: cargo +${{ matrix.rust }} tree --workspace ${{ matrix.args }}
+
+      - name: Check
+        run: cargo +${{ matrix.rust }} check --workspace ${{ matrix.args }}
+
+      - name: Build
+        run: cargo +${{ matrix.rust }} build --workspace ${{ matrix.args }}
+
+      - name: Test
+        run: cargo +${{ matrix.rust }} test --workspace ${{ matrix.args }} -- --nocapture
