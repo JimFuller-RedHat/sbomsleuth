@@ -1,0 +1,27 @@
+[package]
+name = "sbomsleuth"
+description = "Library to assess SBOM quality."
+version = "0.1.6"
+edition = "2021"
+authors = ["James Fuller <jfuller@redhat.com>"]
+license = "Apache-2.0"
+repository = "https://github.com/JimFuller-RedHat/sbomsleuth"
+keywords = ["sbom","spdx","cyclone-dx","quality"]
+readme = "../README.md"
+rust-version = "1.80.0"
+
+[dependencies]
+colored = {workspace = true}
+cyclonedx-bom = { workspace = true }
+env_logger = { workspace = true }
+log = { workspace = true }
+sbom-walker = { workspace = true }
+spdx-rs = { workspace = true }
+serde = {workspace = true }
+serde_json = {workspace = true}
+walker-common = {workspace = true}
+walker-extras = {workspace = true}
+anyhow = { workspace = true }
+reqwest = { workspace = true }
+tokio =  { workspace = true }
+
